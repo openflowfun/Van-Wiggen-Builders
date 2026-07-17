@@ -127,8 +127,11 @@ body.hovering #cur-ring{opacity:.2}
 #mob-overlay.open{opacity:1;pointer-events:all}
 
 /* ---------- HERO - split screen ---------- */
-#hero{position:relative;min-height:100vh;padding-top:96px;display:grid;grid-template-columns:1fr 1fr;background:var(--charcoal)}
+#hero{position:relative;min-height:100vh;padding-top:96px;display:grid;grid-template-columns:1fr 1fr;background:var(--charcoal);overflow:hidden}
 .hero-l{display:flex;flex-direction:column;justify-content:center;padding:60px 60px 60px 40px;position:relative;z-index:2}
+.hero-l::before{content:'';position:absolute;top:0;left:0;width:680px;height:680px;z-index:-1;pointer-events:none;
+  background:radial-gradient(circle at 0% 0%,rgba(227,6,19,.42) 0%,transparent 62%);
+  filter:blur(46px)}
 .hero-num{font-family:'Oswald',sans-serif;color:var(--red);font-size:.75rem;letter-spacing:.3em;margin-bottom:26px;display:flex;align-items:center;gap:12px}
 .hero-num::before{content:'';width:34px;height:2px;background:var(--red)}
 .hero-lbp-badge{flex:0 0 auto;width:120px;height:120px;border-radius:50%;background:var(--white);border:3px solid var(--red);
@@ -142,10 +145,11 @@ body.hovering #cur-ring{opacity:.2}
 .ltr.red{color:var(--red-l)}
 .hero-phrase.on .ltr{opacity:1;transform:translateX(0)}
 .hero-sub{color:var(--silver);font-size:1rem;margin:22px 0 34px;max-width:480px}
-.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}
+.hero-badges{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:10px;margin-bottom:32px}
 .hero-badges span{border:1px solid var(--silver-d);color:var(--silver);font-family:'Oswald',sans-serif;
-  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;text-align:center;
+  display:flex;align-items:center;justify-content:center}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-start}
 .mob-call-bar{display:none}
 .hero-r{position:relative;overflow:hidden}
 #hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -158,8 +162,18 @@ body.hovering #cur-ring{opacity:.2}
 .hero-r-badges{position:absolute;bottom:34px;right:34px;z-index:3;display:flex;align-items:flex-end;gap:14px}
 .hero-tag{background:var(--red);color:var(--white);white-space:nowrap;
   padding:12px 20px;font-family:'Oswald',sans-serif;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
-#typewriter{font-size:.85rem;color:var(--silver);margin-bottom:0}
+#typewriter{font-size:.85rem;color:var(--silver);margin-bottom:0;text-align:left}
 #typewriter b{color:var(--red-l);font-weight:600}
+
+/* ---------- Ambient red glow accents (reusable - corner-anchored, slow blink) ---------- */
+.glow{position:absolute;width:380px;height:380px;pointer-events:none;z-index:0;
+  filter:blur(30px);animation:glowBlink 5s ease-in-out infinite;will-change:opacity}
+.glow-lg{width:640px;height:640px}
+.glow-red.glow-tl{background:radial-gradient(circle at 0% 0%,rgba(227,6,19,.5) 0%,transparent 62%);top:0;left:0}
+.glow-red.glow-tr{background:radial-gradient(circle at 100% 0%,rgba(227,6,19,.5) 0%,transparent 62%);top:0;right:0}
+.glow-red.glow-bl{background:radial-gradient(circle at 0% 100%,rgba(227,6,19,.5) 0%,transparent 62%);bottom:0;left:0}
+.glow-red.glow-br{background:radial-gradient(circle at 100% 100%,rgba(227,6,19,.5) 0%,transparent 62%);bottom:0;right:0}
+@keyframes glowBlink{0%,100%{opacity:.2}50%{opacity:1}}
 
 /* ---------- Section shells ---------- */
 .sect{padding:140px 0 120px}
@@ -181,7 +195,7 @@ body.hovering #cur-ring{opacity:.2}
 /* ---------- About ---------- */
 #about .grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
 .about-copy p{color:var(--ink2);margin-bottom:16px;font-size:.98rem}
-.about-copy strong{color:var(--red);font-weight:600}
+.about-copy strong{color:var(--ink);font-weight:400}
 .about-frame{position:relative}
 .about-frame .fr-img{width:100%;height:460px;object-fit:cover;display:block}
 .about-frame .corner{position:absolute;width:46px;height:46px;z-index:2}
@@ -221,32 +235,56 @@ body.hovering #cur-ring{opacity:.2}
   color:var(--white);display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:none}
 .lb-prev{left:24px}.lb-next{right:24px}
 
-/* ---------- Services - numbered index list ---------- */
-.svc-list{border-top:1px solid var(--line-s)}
-.svc-row{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:24px;
-  padding:26px 4px;border-bottom:1px solid var(--line-s);cursor:none;position:relative;overflow:hidden}
-.svc-row::before{content:'';position:absolute;left:0;bottom:-1px;width:0;height:2px;background:var(--red);transition:width .4s ease}
-.svc-row:hover::before,.svc-row.open::before{width:100%}
-.svc-idx{font-size:1.7rem;line-height:1;transition:transform .3s ease;
-  filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%)}
-.svc-row:hover .svc-idx,.svc-row.open .svc-idx{transform:scale(1.2) rotate(-6deg)}
-.svc-name h4{font-size:1.15rem;color:var(--ink);transition:transform .3s;font-weight:600}
-.svc-row:hover .svc-name h4{transform:translateX(10px)}
-.svc-desc{max-height:0;overflow-y:hidden;transition:max-height .4s ease;font-size:.86rem;color:var(--ink2);margin-top:8px}
-.svc-row.open .svc-desc{max-height:100px}
-.svc-arrow{font-family:'Oswald',sans-serif;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--silver-d);white-space:nowrap}
+/* ---------- Quote CTA banner ---------- */
+#quote-cta{background:var(--red)}
+.qc-wrap{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;padding:50px 0}
+.qc-eyebrow{display:block;font-family:'Oswald',sans-serif;font-size:.62rem;letter-spacing:.28em;
+  text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:10px}
+#quote-cta h3{color:var(--white);font-size:clamp(1.4rem,2.6vw,2.1rem)}
+.qc-btn{flex:0 0 auto;background:var(--white);color:var(--red);padding:17px 34px;font-family:'Oswald',sans-serif;
+  font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:none;
+  transition:all .25s ease;clip-path:polygon(0 0,100% 0,100% 100%,10px 100%)}
+.qc-btn:hover{background:var(--charcoal);color:var(--white);transform:translateX(2px)}
 
-/* ---------- Process - stepped timeline ---------- */
+/* ---------- Services - 3x3 hover/click grid ---------- */
+.svc-emoji-red{filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%)}
+.svc-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-s);border:1px solid var(--line-s)}
+.svc-box{background:var(--silver-l);padding:40px 30px;text-align:center;cursor:none;position:relative;
+  transition:background .3s ease,transform .3s ease,box-shadow .3s ease}
+.svc-box:hover{background:var(--white);transform:translateY(-4px);box-shadow:0 16px 30px rgba(0,0,0,.08);z-index:1}
+.svc-box.open{background:var(--white)}
+.svc-box-toggle{position:absolute;top:18px;right:18px;width:28px;height:28px;border-radius:50%;
+  border:1px solid var(--silver-d);color:var(--silver-d);display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;transition:transform .35s ease,border-color .3s ease,color .3s ease,background .3s ease}
+.svc-box:hover .svc-box-toggle{border-color:var(--red);color:var(--red)}
+.svc-box.open .svc-box-toggle{transform:rotate(45deg);border-color:var(--red);color:var(--red);background:rgba(227,6,19,.08)}
+.svc-box-icon{font-size:2.6rem;margin-bottom:18px;transition:transform .3s ease}
+.svc-box:hover .svc-box-icon{transform:scale(1.12)}
+.svc-box h4{font-size:1.05rem;color:var(--ink);font-weight:600}
+.svc-box-desc{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.svc-box.open .svc-box-desc{max-height:180px}
+.svc-box-desc p{font-size:.85rem;color:var(--ink2);margin-top:16px;padding-top:16px;border-top:1px solid var(--line-s)}
+
+/* ---------- Process - sequential one-by-one reveal ---------- */
 .timeline{position:relative;max-width:920px;margin:0 auto}
 .timeline::before{content:'';position:absolute;left:36px;top:10px;bottom:10px;width:2px;
-  background:repeating-linear-gradient(var(--silver-d) 0 6px,transparent 6px 12px)}
-.t-step{display:flex;gap:30px;position:relative;padding-bottom:56px}
+  background:repeating-linear-gradient(var(--silver-d) 0 6px,transparent 6px 12px);
+  clip-path:inset(0 0 100% 0);transition:clip-path 1.7s cubic-bezier(.65,0,.35,1)}
+.timeline.draw::before{clip-path:inset(0 0 0% 0)}
+.t-step{display:flex;gap:30px;position:relative;padding-bottom:56px;
+  opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+.t-step.show{opacity:1;transform:translateY(0)}
 .t-step:last-child{padding-bottom:0}
 .t-node{width:74px;height:74px;border-radius:50%;background:var(--red);color:var(--white);
   display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:1.3rem;
-  flex:0 0 auto;position:relative;z-index:1;border:4px solid var(--charcoal)}
-.t-body{padding-top:14px}
+  flex:0 0 auto;position:relative;z-index:1;border:4px solid var(--charcoal);
+  transform:scale(.3);transition:transform .55s cubic-bezier(.34,1.56,.64,1)}
+.t-step.show .t-node{transform:scale(1)}
+.t-node::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(227,6,19,.5);opacity:0}
+.t-step.show .t-node::after{animation:tNodePulse 1.3s ease-out .45s}
+@keyframes tNodePulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.55);opacity:0}}
+.t-body{padding-top:14px;opacity:0;transition:opacity .5s ease .18s}
+.t-step.show .t-body{opacity:1}
 .t-body h4{color:var(--white);font-size:1.15rem;margin-bottom:8px}
 .t-body p{color:var(--silver);font-size:.92rem}
 
@@ -254,7 +292,9 @@ body.hovering #cur-ring{opacity:.2}
 .stat-banner{background:var(--red);clip-path:polygon(0 40px,100% 0,100% calc(100% - 40px),0 100%);
   padding:80px 0;margin:-40px 0}
 .stat-banner .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center}
-.stat-num{font-family:'Oswald',sans-serif;font-size:clamp(2.6rem,5vw,4.4rem);color:var(--white);line-height:1}
+.stat-num{font-family:'Oswald',sans-serif;font-size:clamp(2.6rem,5vw,4.4rem);color:var(--white);line-height:1;white-space:nowrap;
+  display:flex;align-items:center;justify-content:center;min-height:clamp(2.6rem,5vw,4.4rem)}
+.stat-num.stat-nzbn{font-size:clamp(1.1rem,2.6vw,1.9rem);letter-spacing:.01em}
 .stat-lbl{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600}
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line-s);margin-top:110px}
 .pillar{background:var(--silver-l);padding:32px 26px;cursor:none}
@@ -278,8 +318,10 @@ body.hovering #cur-ring{opacity:.2}
 .team-badges span{border:1px solid var(--silver-d);padding:6px 14px;font-size:.62rem;
   letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);font-family:'Oswald',sans-serif}
 .team-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-s);margin-bottom:24px}
-.team-stats div{background:var(--white);padding:18px;text-align:center}
+.team-stats div{background:var(--white);padding:18px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center}
 .team-stats b{display:block;font-family:'Oswald',sans-serif;color:var(--red);font-size:1.35rem}
+.team-stats .nzbn-stat b{font-size:.86rem;letter-spacing:.01em}
 .team-stats span{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--silver-d)}
 .team-info p.bio{color:var(--ink2);font-size:.94rem;margin-bottom:22px;max-width:560px}
 .skill-tags{display:flex;flex-wrap:wrap;gap:8px}
@@ -324,11 +366,12 @@ body.hovering #cur-ring{opacity:.2}
   background:var(--white);padding:0 4px;font-family:'Oswald',sans-serif}
 .fg.focused label,.fg.filled label{top:-2px;font-size:.6rem;color:var(--red)}
 #form-ok{display:none;color:var(--red-d);font-size:.85rem;margin-top:12px;border:1px solid var(--red);padding:14px;background:var(--red-dim)}
+#modal-form-ok{display:none;color:var(--red-d);font-size:.85rem;margin-top:12px;border:1px solid var(--red);padding:14px;background:var(--red-dim)}
 
 /* ---------- Footer ---------- */
-footer{background:var(--charcoal);padding:70px 0 0}
-.foot-grid{display:grid;grid-template-columns:1fr 180px;gap:70px;margin-bottom:50px;align-items:end}
-.foot-brand{display:flex;flex-direction:column;gap:18px}
+footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hidden}
+.foot-grid{display:grid;grid-template-columns:1fr 160px 160px;gap:50px;margin-bottom:50px;align-items:end}
+.foot-brand{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
 .foot-tagline{font-size:1rem;color:var(--silver);max-width:340px}
 .foot-logo{height:76px;width:auto;opacity:.95}
 .foot-links h5{font-family:'Oswald',sans-serif;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red-l);margin-bottom:18px}
@@ -337,9 +380,9 @@ footer{background:var(--charcoal);padding:70px 0 0}
 .foot-bottom{border-top:1px solid rgba(255,255,255,.1);padding:26px 0;display:flex;justify-content:space-between;
   align-items:center;flex-wrap:wrap;gap:12px}
 .foot-copy{font-size:.68rem;font-weight:700;color:var(--red-l);letter-spacing:.04em;font-family:'Oswald',sans-serif}
-.foot-credit{font-size:.75rem;color:var(--silver-d)}
-.openflow-text{font-weight:800;font-size:1.2em;background:linear-gradient(90deg,#2563ff,#00e5c8);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+.foot-credit{font-size:.75rem;color:var(--silver-d);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.openflow-wordmark{height:18px;width:auto;vertical-align:middle;transition:opacity .25s ease}
+.openflow-wordmark:hover{opacity:.8}
 .mob-brand{display:none}
 
 /* ---------- Quote modal ---------- */
@@ -380,6 +423,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
   .logo-text span{font-size:.46rem}
   #hero{padding-top:60px}
   .hero-l{padding:44px 20px}
+  .hero-l::before{width:420px;height:420px}
   .hero-r-badges{bottom:16px;right:16px;gap:8px}
   .hero-lbp-badge{width:72px;height:72px;padding:7px}
   .hero-tag{padding:9px 14px;font-size:.58rem}
@@ -396,8 +440,13 @@ footer{background:var(--charcoal);padding:70px 0 0}
   .g-item{width:440px;height:300px}
   .gallery-row{gap:12px}
   .gallery-wrap{gap:12px}
-  .svc-row{grid-template-columns:44px 1fr;gap:14px}
-  .svc-arrow{display:none}
+  .qc-wrap{flex-direction:column;text-align:center;padding:36px 0}
+  .qc-btn{width:100%}
+  .svc-grid3{grid-template-columns:repeat(2,1fr)}
+  .svc-box{padding:28px 18px}
+  .svc-box-icon{font-size:2.1rem;margin-bottom:12px}
+  .svc-box h4{font-size:.92rem}
+  .svc-box-toggle{width:24px;height:24px;top:12px;right:12px;font-size:.82rem}
   .timeline::before{left:28px}
   .t-node{width:56px;height:56px;font-size:1rem}
   .stat-banner{padding:50px 0;clip-path:polygon(0 24px,100% 0,100% calc(100% - 24px),0 100%)}
@@ -441,7 +490,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
         <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
           <path d="M8 16 L20 48 L32 24 L44 48 L56 16 L48 16 L42 34 L32 12 L22 34 L16 16 Z" fill="#E30613"/>
         </svg>
-        <span class="logo-text"><b>Van Wiggen Builders</b><span>Christchurch · Est. 2007</span></span>
+        <span class="logo-text"><b>Van Wiggen Builders</b></span>
       </a>
       <nav class="nav-links">
         <a href="#about">About Us</a>
@@ -476,7 +525,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
 <!-- ============ HERO - split screen ============ -->
 <section id="hero">
   <div class="hero-l">
-    <div class="hero-num">01 / BUILDING SINCE 2007</div>
+    <div class="hero-num">BUILDING SINCE 2007</div>
     <div class="hero-phrase-wrap">
       <h1 class="hero-phrase" id="hero-phrase"></h1>
     </div>
@@ -511,7 +560,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
 <section id="about" class="sect on-light cut cut-l">
   <div class="wrap grid">
     <div class="about-copy rv-l">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">02 / About Us</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">About Us</span></div>
       <h2>Nearly Two Decades of Honest, Quality Building</h2>
       <p>Van Wiggen Builders was founded in <strong>2007</strong> by Rob Van Wiggen, a Licensed Building Practitioner with a straightforward philosophy: build it right, communicate honestly, and stand behind the work.</p>
       <p>Since then we've grown into a trusted name across Christchurch and Canterbury, delivering quality new builds, renovations, and extensions for families who want a builder they can rely on from first consultation to final handover.</p>
@@ -534,9 +583,10 @@ footer{background:var(--charcoal);padding:70px 0 0}
 
 <!-- ============ PORTFOLIO ============ -->
 <section id="portfolio" class="sect on-dark cut cut-r">
+  <div class="glow glow-red glow-tr"></div>
   <div class="wrap">
     <div class="sect-head rv">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">03 / Our Projects</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">Our Projects</span></div>
       <h2>Recent Builds &amp; Renovations</h2>
       <p>A selection of new builds, renovations and extensions completed across Christchurch and Canterbury. Click any project to view it larger.</p>
     </div>
@@ -554,41 +604,46 @@ footer{background:var(--charcoal);padding:70px 0 0}
   </div>
 </div>
 
+<!-- ============ QUOTE CTA ============ -->
+<section id="quote-cta">
+  <div class="stripe-bar"></div>
+  <div class="wrap qc-wrap">
+    <div>
+      <span class="qc-eyebrow">Ready When You Are</span>
+      <h3>Get A Free, No-Obligation Quote</h3>
+    </div>
+    <button class="qc-btn" onclick="openModal()">Get A Free Quote →</button>
+  </div>
+  <div class="stripe-bar"></div>
+</section>
+
 <!-- ============ SERVICES ============ -->
 <section id="services" class="sect on-light cut cut-l">
   <div class="wrap">
     <div class="sect-head rv">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">04 / What We Do</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">What We Do</span></div>
       <h2>Our Services</h2>
-      <p>End-to-end building services across Christchurch and Canterbury - tap a row to learn more.</p>
+      <p>End-to-end building services across Christchurch and Canterbury - click a box to reveal the details.</p>
     </div>
-    <div class="svc-list rv">
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🏠</div><div class="svc-name"><h4>New Builds</h4><div class="svc-desc">Custom family homes designed and built to last, from first sketch to final handover.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🔨</div><div class="svc-name"><h4>Renovations</h4><div class="svc-desc">Full home renovations that respect your existing character while modernising how you live.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">📐</div><div class="svc-name"><h4>Extensions</h4><div class="svc-desc">Seamless additions that expand your living space without compromising your home's flow.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🚿</div><div class="svc-name"><h4>Kitchens &amp; Bathrooms</h4><div class="svc-desc">High-quality fit-outs built for everyday use and lasting value.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🪵</div><div class="svc-name"><h4>Decks</h4><div class="svc-desc">Outdoor living spaces built to handle Canterbury's weather, year-round.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🏗️</div><div class="svc-name"><h4>Roofing</h4><div class="svc-desc">Reliable roofing installs and repairs from a licensed, insured team.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🧱</div><div class="svc-name"><h4>Foundations</h4><div class="svc-desc">Solid, code-compliant foundations engineered for Canterbury's ground conditions.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">🪚</div><div class="svc-name"><h4>Timber Cladding</h4><div class="svc-desc">Durable, weathertight cladding installed to the highest standard of finish.</div></div><div class="svc-arrow">Learn More →</div></div>
-      <div class="svc-row" onclick="toggleSvc(this)"><div class="svc-idx">📋</div><div class="svc-name"><h4>Project Management</h4><div class="svc-desc">One point of contact from consent through to completion - no surprises.</div></div><div class="svc-arrow">Learn More →</div></div>
-    </div>
+    <div class="svc-grid3 rv" id="svc-grid3"></div>
   </div>
 </section>
 
 <!-- ============ PROCESS ============ -->
 <section id="process" class="sect on-dark cut cut-r">
+  <div class="glow glow-red glow-bl"></div>
+  <div class="glow glow-red glow-tr glow-lg"></div>
   <div class="wrap">
     <div class="sect-head rv">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">05 / How It Works</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">How It Works</span></div>
       <h2>Our Process</h2>
       <p>A simple, transparent process from your first phone call to the day we hand over the keys.</p>
     </div>
-    <div class="timeline">
-      <div class="t-step rv d1"><div class="t-node">01</div><div class="t-body"><h4>Consultation</h4><p>We visit your site, listen to your goals, and talk through what's possible.</p></div></div>
-      <div class="t-step rv d2"><div class="t-node">02</div><div class="t-body"><h4>Fixed-Price Quote</h4><p>A clear, itemised quote with no hidden extras - so you know exactly what to expect.</p></div></div>
-      <div class="t-step rv d3"><div class="t-node">03</div><div class="t-body"><h4>Build</h4><p>Our licensed team gets to work, with regular updates so you're never left wondering.</p></div></div>
-      <div class="t-step rv d4"><div class="t-node">04</div><div class="t-body"><h4>Handover</h4><p>A final walkthrough, tidy site, and a home finished to the standard we'd want for our own family.</p></div></div>
+    <div class="timeline" id="timeline">
+      <div class="t-step"><div class="t-node">01</div><div class="t-body"><h4>Consultation</h4><p>We visit your site, listen to your goals, and talk through what's possible.</p></div></div>
+      <div class="t-step"><div class="t-node">02</div><div class="t-body"><h4>Fixed-Price Quote</h4><p>A clear, itemised quote with no hidden extras - so you know exactly what to expect.</p></div></div>
+      <div class="t-step"><div class="t-node">03</div><div class="t-body"><h4>Build</h4><p>Our licensed team gets to work, with regular updates so you're never left wondering.</p></div></div>
+      <div class="t-step"><div class="t-node">04</div><div class="t-body"><h4>Handover</h4><p>A final walkthrough, tidy site, and a home finished to the standard we'd want for our own family.</p></div></div>
     </div>
   </div>
 </section>
@@ -597,15 +652,15 @@ footer{background:var(--charcoal);padding:70px 0 0}
 <section id="why" class="sect on-light cut cut-l" style="padding-bottom:0">
   <div class="wrap">
     <div class="sect-head rv">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">06 / Why Choose Us</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">Why Choose Us</span></div>
       <h2>Built On Trust, Backed By Experience</h2>
     </div>
   </div>
   <div class="stat-banner rv">
     <div class="wrap">
-      <div><div class="stat-num" data-count="19">0</div><div class="stat-lbl">+ Years Experience</div></div>
-      <div><div class="stat-num" data-count="100">0</div><div class="stat-lbl">+ Projects Completed</div></div>
-      <div><div class="stat-num" data-count="5" data-decimal="1">0</div><div class="stat-lbl">Star Client Rating</div></div>
+      <div><div class="stat-num" data-count="19" data-suffix="+">0</div><div class="stat-lbl">Years Experience</div></div>
+      <div><div class="stat-num" data-count="100" data-suffix="+">0</div><div class="stat-lbl">Projects Completed</div></div>
+      <div><div class="stat-num stat-nzbn no-count">9429033542911</div><div class="stat-lbl">NZBN</div></div>
     </div>
   </div>
   <div class="wrap" style="padding-bottom:120px">
@@ -634,7 +689,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
 <section id="team" class="sect on-light">
   <div class="wrap">
     <div class="sect-head rv">
-      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">07 / Meet The Builder</span></div>
+      <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">Meet The Builder</span></div>
       <h2>Led By Rob Van Wiggen</h2>
     </div>
     <div class="team-card rv">
@@ -653,7 +708,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
         <div class="team-stats">
           <div><b>19+</b><span>Years</span></div>
           <div><b>100+</b><span>Projects</span></div>
-          <div><b>5.0</b><span>Rating</span></div>
+          <div class="nzbn-stat"><b>9429033542911</b><span>NZBN</span></div>
         </div>
         <p class="bio">Rob founded Van Wiggen Builders in 2007 and has personally overseen every project since - from first-home new builds to full character-home renovations. As a Licensed Building Practitioner, he's hands-on at every stage, ensuring each build meets the standard he'd expect for his own home.</p>
         <div class="skill-tags">
@@ -666,9 +721,10 @@ footer{background:var(--charcoal);padding:70px 0 0}
 
 <!-- ============ FAQ ============ -->
 <section id="faq" class="sect on-dark cut cut-r">
+  <div class="glow glow-red glow-tr"></div>
   <div class="wrap">
     <div class="sect-head rv" style="margin:0 auto 50px;text-align:center;max-width:640px">
-      <div class="eyebrow-line" style="justify-content:center"><span class="tick"></span><span class="eyebrow">08 / Questions</span></div>
+      <div class="eyebrow-line" style="justify-content:center"><span class="tick"></span><span class="eyebrow">Questions</span></div>
       <h2>Frequently Asked Questions</h2>
     </div>
     <div class="faq-wrap rv">
@@ -703,7 +759,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
 <!-- ============ CONTACT ============ -->
 <section id="contact">
   <div class="contact-l rv-l">
-    <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">09 / Get In Touch</span></div>
+    <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">Get In Touch</span></div>
     <h2>Let's Talk About Your Project</h2>
     <div style="margin-top:36px">
       <div class="contact-row">
@@ -746,6 +802,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
 
 <!-- ============ FOOTER ============ -->
 <footer>
+  <div class="glow glow-red glow-bl"></div>
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
@@ -762,6 +819,14 @@ footer{background:var(--charcoal);padding:70px 0 0}
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
       </div>
+      <div class="foot-links">
+        <h5>Services</h5>
+        <a href="#services">New Builds</a>
+        <a href="#services">Renovations</a>
+        <a href="#services">Extensions</a>
+        <a href="#services">Kitchens &amp; Bathrooms</a>
+        <a href="#services">Roofing</a>
+      </div>
     </div>
     <div class="mob-brand">
       <svg width="50" height="50" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
@@ -771,7 +836,7 @@ footer{background:var(--charcoal);padding:70px 0 0}
     </div>
     <div class="foot-bottom">
       <p class="foot-copy">© 2026 Van Wiggen Builders Ltd.</p>
-      <p class="foot-credit"><strong>Built by <a href="https://openflow.fun" target="_blank" class="openflow-text">openflow</a> · Growing Brands Digitally</strong></p>
+      <p class="foot-credit"><strong>Built by</strong> <a href="https://openflow.fun" target="_blank"><img src="openflow-wordmark.png" alt="openflow" class="openflow-wordmark"/></a> <strong>· Growing Brands Digitally</strong></p>
     </div>
   </div>
   <div class="stripe-bar"></div>
@@ -832,7 +897,7 @@ window.addEventListener('mousemove',e=>{
   cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
   ring.style.left=e.clientX+'px';ring.style.top=e.clientY+'px';
 });
-document.querySelectorAll('a,button,.svc-row,.pillar,.g-item,.faq-q,input,select,textarea').forEach(el=>{
+document.querySelectorAll('a,button,.svc-box,.pillar,.g-item,.faq-q,input,select,textarea').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
 });
@@ -971,12 +1036,32 @@ function lbNav(dir){lbIdx=(lbIdx+dir+projects.length)%projects.length;updateLigh
 function closeLightbox(){lb.classList.remove('open');document.body.style.overflow='';}
 lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
 
-/* ---- Services row toggle ---- */
-function toggleSvc(row){
-  const wasOpen=row.classList.contains('open');
-  document.querySelectorAll('.svc-row.open').forEach(r=>r.classList.remove('open'));
-  if(!wasOpen)row.classList.add('open');
-}
+/* ---- Services: 3x3 hover/click grid ---- */
+const svcData=[
+  {emoji:'🏠',name:'New Builds',desc:'Custom family homes designed and built to last, from first sketch to final handover.'},
+  {emoji:'🔨',name:'Renovations',desc:'Full home renovations that respect your existing character while modernising how you live.'},
+  {emoji:'📐',name:'Extensions',desc:'Seamless additions that expand your living space without compromising your home\'s flow.'},
+  {emoji:'🚿',name:'Kitchens & Bathrooms',desc:'High-quality fit-outs built for everyday use and lasting value.'},
+  {emoji:'🪵',name:'Decks',desc:'Outdoor living spaces built to handle Canterbury\'s weather, year-round.'},
+  {emoji:'🏗️',name:'Roofing',desc:'Reliable roofing installs and repairs from a licensed, insured team.'},
+  {emoji:'🧱',name:'Foundations',desc:'Solid, code-compliant foundations engineered for Canterbury\'s ground conditions.'},
+  {emoji:'🪚',name:'Timber Cladding',desc:'Durable, weathertight cladding installed to the highest standard of finish.'},
+  {emoji:'📋',name:'Project Management',desc:'One point of contact from consent through to completion - no surprises.'}
+];
+const svcGridEl=document.getElementById('svc-grid3');
+svcData.forEach(s=>{
+  const box=document.createElement('div');
+  box.className='svc-box';
+  box.innerHTML=`
+    <span class="svc-box-toggle">+</span>
+    <div class="svc-box-icon svc-emoji-red">${s.emoji}</div>
+    <h4>${s.name}</h4>
+    <div class="svc-box-desc"><p>${s.desc}</p></div>`;
+  box.addEventListener('click',()=>box.classList.toggle('open'));
+  box.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  box.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+  svcGridEl.appendChild(box);
+});
 
 /* ---- Scroll reveal ---- */
 const io=new IntersectionObserver((entries)=>{
@@ -986,20 +1071,35 @@ const io=new IntersectionObserver((entries)=>{
 },{threshold:.15});
 document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>io.observe(el));
 
+/* ---- Process: sequential one-by-one reveal ---- */
+const timelineEl=document.getElementById('timeline');
+const tSteps=timelineEl.querySelectorAll('.t-step');
+const tio=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      timelineEl.classList.add('draw');
+      tSteps.forEach((step,i)=>setTimeout(()=>step.classList.add('show'),i*450));
+      tio.unobserve(e.target);
+    }
+  });
+},{threshold:.35});
+tio.observe(timelineEl);
+
 /* ---- Counter animation ---- */
-const counters=document.querySelectorAll('.stat-num');
+const counters=document.querySelectorAll('.stat-num:not(.no-count)');
 const cio=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
       const el=e.target;
       const target=parseFloat(el.dataset.count);
       const decimals=parseInt(el.dataset.decimal||'0');
+      const suffix=el.dataset.suffix||'';
       let cur=0;
       const step=target/60;
       const tick=()=>{
         cur+=step;
-        if(cur>=target){el.textContent=target.toFixed(decimals);}
-        else{el.textContent=cur.toFixed(decimals);requestAnimationFrame(tick);}
+        if(cur>=target){el.textContent=target.toFixed(decimals)+suffix;}
+        else{el.textContent=cur.toFixed(decimals)+suffix;requestAnimationFrame(tick);}
       };
       tick();
       cio.unobserve(el);
