@@ -248,8 +248,6 @@ body.hovering #cur-ring{opacity:.2}
 .qc-btn:hover{background:var(--charcoal);color:var(--white);transform:translateX(2px)}
 
 /* ---------- Services - 3x3 hover/click grid ---------- */
-.svc-emoji-red{-webkit-filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%);
-  filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%)}
 .svc-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-s);border:1px solid var(--line-s)}
 .svc-mobile-only{display:none}
 .svc-box{background:var(--silver-l);padding:40px 30px;text-align:center;cursor:none;position:relative;
@@ -261,7 +259,8 @@ body.hovering #cur-ring{opacity:.2}
   font-size:.95rem;transition:transform .35s ease,border-color .3s ease,color .3s ease,background .3s ease}
 .svc-box:hover .svc-box-toggle{border-color:var(--red);color:var(--red)}
 .svc-box.open .svc-box-toggle{transform:rotate(45deg);border-color:var(--red);color:var(--red);background:rgba(227,6,19,.08)}
-.svc-box-icon{font-size:2.6rem;margin-bottom:18px;transition:transform .3s ease}
+.svc-box-icon{margin-bottom:18px;transition:transform .3s ease;color:var(--red);display:flex;justify-content:center}
+.svc-box-icon svg{width:2.6rem;height:2.6rem;stroke:currentColor;fill:none}
 .svc-box:hover .svc-box-icon{transform:scale(1.12)}
 .svc-box h4{font-size:1.05rem;color:var(--ink);font-weight:600}
 .svc-box-desc{max-height:0;overflow:hidden;transition:max-height .4s ease}
@@ -446,7 +445,8 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
   .svc-grid3{grid-template-columns:repeat(2,1fr)}
   .svc-box{padding:28px 18px}
   .svc-mobile-only{display:block}
-  .svc-box-icon{font-size:2.1rem;margin-bottom:12px}
+  .svc-box-icon{margin-bottom:12px}
+  .svc-box-icon svg{width:2.1rem;height:2.1rem}
   .svc-box h4{font-size:.92rem}
   .svc-box-toggle{width:24px;height:24px;top:12px;right:12px;font-size:.82rem}
   .timeline::before{left:28px}
@@ -463,12 +463,11 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
   .team-info{padding:30px}
   #contact{grid-template-columns:1fr}
   .contact-l,.contact-r{padding:54px 24px}
-  .foot-grid{gap:36px}
+  .foot-grid{grid-template-columns:1fr 1fr;column-gap:24px;row-gap:36px}
   .foot-brand{display:none}
   .mob-brand{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:40px;text-align:center}
   .mob-brand svg{height:64px}
   .mob-brand p{color:var(--silver)}
-  .foot-links{display:grid;grid-template-columns:1fr 1fr;gap:20px}
   .foot-bottom{flex-direction:column;text-align:center}
 }
 @media(max-width:480px){
@@ -1040,17 +1039,29 @@ function closeLightbox(){lb.classList.remove('open');document.body.style.overflo
 lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox();});
 
 /* ---- Services: 3x3 hover/click grid ---- */
+const svcIcons={
+  house:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9h5v-5h4v5h5v-9"/>',
+  tool:'<path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8z"/>',
+  expand:'<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/>',
+  droplet:'<path d="M12 2.5s6.5 7.2 6.5 11.3a6.5 6.5 0 1 1-13 0C5.5 9.7 12 2.5 12 2.5z"/>',
+  layers:'<path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+  roof:'<path d="M4 12 12 5l8 7"/><path d="M6 12v7h12v-7"/>',
+  bricks:'<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 12h18"/><path d="M9 5v7"/><path d="M15 12v7"/>',
+  planks:'<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>',
+  clipboard:'<path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><path d="M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/><path d="M9 14l2 2 4-4"/>',
+  fence:'<path d="M4 21V9l2-4 2 4v12"/><path d="M10 21V9l2-4 2 4v12"/><path d="M16 21V9l2-4 2 4v12"/><path d="M2 13h20"/>'
+};
 const svcData=[
-  {emoji:'🏠',name:'New Builds',desc:'Custom family homes designed and built to last, from first sketch to final handover.'},
-  {emoji:'🔨',name:'Renovations',desc:'Full home renovations that respect your existing character while modernising how you live.'},
-  {emoji:'📐',name:'Extensions',desc:'Seamless additions that expand your living space without compromising your home\'s flow.'},
-  {emoji:'🚿',name:'Kitchens & Bathrooms',desc:'High-quality fit-outs built for everyday use and lasting value.'},
-  {emoji:'🪵',name:'Decks',desc:'Outdoor living spaces built to handle Canterbury\'s weather, year-round.'},
-  {emoji:'🏗️',name:'Roofing',desc:'Reliable roofing installs and repairs from a licensed, insured team.'},
-  {emoji:'🧱',name:'Foundations',desc:'Solid, code-compliant foundations engineered for Canterbury\'s ground conditions.'},
-  {emoji:'🪚',name:'Timber Cladding',desc:'Durable, weathertight cladding installed to the highest standard of finish.'},
-  {emoji:'📋',name:'Project Management',desc:'One point of contact from consent through to completion - no surprises.'},
-  {emoji:'🚧',name:'Fencing',desc:'Durable boundary and privacy fencing built to suit your property and street.',mobileOnly:true}
+  {icon:'house',name:'New Builds',desc:'Custom family homes designed and built to last, from first sketch to final handover.'},
+  {icon:'tool',name:'Renovations',desc:'Full home renovations that respect your existing character while modernising how you live.'},
+  {icon:'expand',name:'Extensions',desc:'Seamless additions that expand your living space without compromising your home\'s flow.'},
+  {icon:'droplet',name:'Kitchens & Bathrooms',desc:'High-quality fit-outs built for everyday use and lasting value.'},
+  {icon:'layers',name:'Decks',desc:'Outdoor living spaces built to handle Canterbury\'s weather, year-round.'},
+  {icon:'roof',name:'Roofing',desc:'Reliable roofing installs and repairs from a licensed, insured team.'},
+  {icon:'bricks',name:'Foundations',desc:'Solid, code-compliant foundations engineered for Canterbury\'s ground conditions.'},
+  {icon:'planks',name:'Timber Cladding',desc:'Durable, weathertight cladding installed to the highest standard of finish.'},
+  {icon:'clipboard',name:'Project Management',desc:'One point of contact from consent through to completion - no surprises.'},
+  {icon:'fence',name:'Fencing',desc:'Durable boundary and privacy fencing built to suit your property and street.',mobileOnly:true}
 ];
 const svcGridEl=document.getElementById('svc-grid3');
 svcData.forEach(s=>{
@@ -1058,7 +1069,7 @@ svcData.forEach(s=>{
   box.className='svc-box'+(s.mobileOnly?' svc-mobile-only':'');
   box.innerHTML=`
     <span class="svc-box-toggle">+</span>
-    <div class="svc-box-icon svc-emoji-red">${s.emoji}</div>
+    <div class="svc-box-icon"><svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${svcIcons[s.icon]}</svg></div>
     <h4>${s.name}</h4>
     <div class="svc-box-desc"><p>${s.desc}</p></div>`;
   box.addEventListener('click',()=>box.classList.toggle('open'));
