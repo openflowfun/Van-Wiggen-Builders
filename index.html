@@ -149,8 +149,8 @@ body.hovering #cur-ring{opacity:.2}
 .hero-badges span{border:1px solid var(--silver-d);color:var(--silver);font-family:'Oswald',sans-serif;
   font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;text-align:center;
   display:flex;align-items:center;justify-content:center}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-start}
-.mob-call-bar{display:none}
+.hero-cta-group{display:inline-grid;grid-template-columns:max-content}
+.hero-ctas{display:flex;gap:16px;flex-wrap:nowrap;justify-content:flex-start}
 .hero-r{position:relative;overflow:hidden}
 #hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 #hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease}
@@ -162,7 +162,7 @@ body.hovering #cur-ring{opacity:.2}
 .hero-r-badges{position:absolute;bottom:34px;right:34px;z-index:3;display:flex;align-items:flex-end;gap:14px}
 .hero-tag{background:var(--red);color:var(--white);white-space:nowrap;
   padding:12px 20px;font-family:'Oswald',sans-serif;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase}
-#typewriter{font-size:.85rem;color:var(--silver);margin-bottom:0;text-align:left}
+#typewriter{font-size:.85rem;color:var(--silver);margin-bottom:0;text-align:center}
 #typewriter b{color:var(--red-l);font-weight:600}
 
 /* ---------- Ambient red glow accents (reusable - corner-anchored, slow blink) ---------- */
@@ -190,6 +190,7 @@ body.hovering #cur-ring{opacity:.2}
 .sect-head{max-width:620px;margin-bottom:64px}
 .sect-head h2{font-size:clamp(2rem,3.6vw,3.1rem);line-height:1.12}
 .sect-head p{color:var(--ink2);margin-top:16px;font-size:.98rem;max-width:520px}
+.portfolio-lede{max-width:640px}
 .on-dark .sect-head p{color:var(--silver)}
 
 /* ---------- About ---------- */
@@ -247,8 +248,10 @@ body.hovering #cur-ring{opacity:.2}
 .qc-btn:hover{background:var(--charcoal);color:var(--white);transform:translateX(2px)}
 
 /* ---------- Services - 3x3 hover/click grid ---------- */
-.svc-emoji-red{filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%)}
+.svc-emoji-red{-webkit-filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%);
+  filter:grayscale(1) brightness(0) saturate(100%) invert(19%) sepia(94%) saturate(6800%) hue-rotate(356deg) brightness(94%) contrast(101%)}
 .svc-grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-s);border:1px solid var(--line-s)}
+.svc-mobile-only{display:none}
 .svc-box{background:var(--silver-l);padding:40px 30px;text-align:center;cursor:none;position:relative;
   transition:background .3s ease,transform .3s ease,box-shadow .3s ease}
 .svc-box:hover{background:var(--white);transform:translateY(-4px);box-shadow:0 16px 30px rgba(0,0,0,.08);z-index:1}
@@ -294,7 +297,6 @@ body.hovering #cur-ring{opacity:.2}
 .stat-banner .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center}
 .stat-num{font-family:'Oswald',sans-serif;font-size:clamp(2.6rem,5vw,4.4rem);color:var(--white);line-height:1;white-space:nowrap;
   display:flex;align-items:center;justify-content:center;min-height:clamp(2.6rem,5vw,4.4rem)}
-.stat-num.stat-nzbn{font-size:clamp(1.1rem,2.6vw,1.9rem);letter-spacing:.01em}
 .stat-lbl{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-top:10px;font-weight:600}
 .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--line-s);margin-top:110px}
 .pillar{background:var(--silver-l);padding:32px 26px;cursor:none}
@@ -429,10 +431,9 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
   .hero-tag{padding:9px 14px;font-size:.58rem}
   .hero-phrase{font-size:clamp(1.6rem,6.6vw,2.1rem)}
   .hero-phrase-wrap{min-height:130px}
-  .hero-ctas{flex-direction:column}
+  .hero-ctas{flex-direction:column;width:auto}
   .hero-ctas .btn-primary,.hero-ctas .btn-outline{width:100%}
-  .mob-call-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:18px;
-    border:2px solid var(--red);padding:14px;font-size:.85rem;color:var(--red-l);font-family:'Oswald',sans-serif}
+  .hero-cta-group{width:100%;display:block}
   .sect{padding:80px 0}
   .about-frame .fr-img{height:240px}
   .about-badge{display:none}
@@ -444,6 +445,7 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
   .qc-btn{width:100%}
   .svc-grid3{grid-template-columns:repeat(2,1fr)}
   .svc-box{padding:28px 18px}
+  .svc-mobile-only{display:block}
   .svc-box-icon{font-size:2.1rem;margin-bottom:12px}
   .svc-box h4{font-size:.92rem}
   .svc-box-toggle{width:24px;height:24px;top:12px;right:12px;font-size:.82rem}
@@ -535,12 +537,13 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
       <span>Est. 2007</span>
       <span>Canterbury Local</span>
     </div>
-    <div class="hero-ctas">
-      <button class="btn-primary" onclick="openModal()">Get a Free Quote</button>
-      <a href="#portfolio" class="btn-outline">View Projects</a>
+    <div class="hero-cta-group">
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="openModal()">Get a Free Quote</button>
+        <a href="#portfolio" class="btn-outline">View Projects</a>
+      </div>
+      <p id="typewriter" style="margin-top:26px">Specialists in: <b id="tw-word">New Builds</b></p>
     </div>
-    <p id="typewriter" style="margin-top:26px">Specialists in: <b id="tw-word">New Builds</b></p>
-    <a href="tel:0272203147" class="mob-call-bar">📞 Call 027 220 3147</a>
   </div>
   <div class="hero-r">
     <img id="hero-bg" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop" alt="Quality new home build in Christchurch by Van Wiggen Builders"/>
@@ -588,7 +591,7 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
     <div class="sect-head rv">
       <div class="eyebrow-line"><span class="tick"></span><span class="eyebrow">Our Projects</span></div>
       <h2>Recent Builds &amp; Renovations</h2>
-      <p>A selection of new builds, renovations and extensions completed across Christchurch and Canterbury. Click any project to view it larger.</p>
+      <p class="portfolio-lede">A selection of new builds, renovations and extensions across Christchurch and Canterbury - click any project to view it larger.</p>
     </div>
   </div>
   <div class="gallery-wrap rv" id="gallery"></div>
@@ -660,7 +663,7 @@ footer{background:var(--charcoal);padding:70px 0 0;position:relative;overflow:hi
     <div class="wrap">
       <div><div class="stat-num" data-count="19" data-suffix="+">0</div><div class="stat-lbl">Years Experience</div></div>
       <div><div class="stat-num" data-count="100" data-suffix="+">0</div><div class="stat-lbl">Projects Completed</div></div>
-      <div><div class="stat-num stat-nzbn no-count">9429033542911</div><div class="stat-lbl">NZBN</div></div>
+      <div><div class="stat-num" data-count="5" data-decimal="1">0</div><div class="stat-lbl">Star Client Rating</div></div>
     </div>
   </div>
   <div class="wrap" style="padding-bottom:120px">
@@ -1046,12 +1049,13 @@ const svcData=[
   {emoji:'🏗️',name:'Roofing',desc:'Reliable roofing installs and repairs from a licensed, insured team.'},
   {emoji:'🧱',name:'Foundations',desc:'Solid, code-compliant foundations engineered for Canterbury\'s ground conditions.'},
   {emoji:'🪚',name:'Timber Cladding',desc:'Durable, weathertight cladding installed to the highest standard of finish.'},
-  {emoji:'📋',name:'Project Management',desc:'One point of contact from consent through to completion - no surprises.'}
+  {emoji:'📋',name:'Project Management',desc:'One point of contact from consent through to completion - no surprises.'},
+  {emoji:'🚧',name:'Fencing',desc:'Durable boundary and privacy fencing built to suit your property and street.',mobileOnly:true}
 ];
 const svcGridEl=document.getElementById('svc-grid3');
 svcData.forEach(s=>{
   const box=document.createElement('div');
-  box.className='svc-box';
+  box.className='svc-box'+(s.mobileOnly?' svc-mobile-only':'');
   box.innerHTML=`
     <span class="svc-box-toggle">+</span>
     <div class="svc-box-icon svc-emoji-red">${s.emoji}</div>
@@ -1082,7 +1086,7 @@ const tio=new IntersectionObserver((entries)=>{
       tio.unobserve(e.target);
     }
   });
-},{threshold:.35});
+},{threshold:.12});
 tio.observe(timelineEl);
 
 /* ---- Counter animation ---- */
